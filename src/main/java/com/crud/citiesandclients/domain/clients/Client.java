@@ -1,6 +1,6 @@
-package com.crud.citiesandclients.domain.entity.clients;
+package com.crud.citiesandclients.domain.clients;
 
-import com.crud.citiesandclients.domain.entity.cities.City;
+import com.crud.citiesandclients.domain.cities.City;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

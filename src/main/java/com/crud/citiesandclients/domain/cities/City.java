@@ -1,4 +1,4 @@
-package com.crud.citiesandclients.domain.entity.cities;
+package com.crud.citiesandclients.domain.cities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,4 +16,9 @@ public class City {
     private Long id;
     private String name;
     private String state;
+
+    public City(RegisterCityDTO city) {
+        this.name = city.name();
+        this.state = city.state();
+    }
 }

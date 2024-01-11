@@ -1,4 +1,4 @@
-package com.crud.citiesandclients.domain.entity.user;
+package com.crud.citiesandclients.domain.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
