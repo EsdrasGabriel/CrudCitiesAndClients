@@ -1,11 +1,12 @@
 package com.crud.citiesandclients.domain.entity.clients;
 
 import com.crud.citiesandclients.domain.entity.cities.City;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Entity(name = "clients")
 @Table(name = "clients")
@@ -13,10 +14,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Client {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String fullName;
-    private String gender;
-    private String dateOfBirth;
-    private String age;
+    private GenderEnum gender;
+    private Date dateOfBirth;
+    private Integer age;
+    @ManyToOne
     private City cityWhereYouLive;
 }
