@@ -9,6 +9,6 @@ CREATE TABLE clients (
     full_name TEXT NOT NULL,
     gender TEXT NOT NULL,
     date_of_birth DATE NOT NULL,
-    age INTEGER NOT NULL,
-    city_id INTEGER REFERENCES cities(id)
+    age BIGINT NOT NULL,
+    city_id BIGINT REFERENCES cities(id)
 );

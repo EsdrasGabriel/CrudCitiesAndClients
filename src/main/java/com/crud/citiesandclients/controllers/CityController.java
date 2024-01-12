@@ -1,7 +1,7 @@
 package com.crud.citiesandclients.controllers;
 
 import com.crud.citiesandclients.domain.cities.City;
-import com.crud.citiesandclients.domain.cities.DataCityDTO;
+import com.crud.citiesandclients.domain.cities.RegisterNewCityDTO;
 import com.crud.citiesandclients.repositories.CityRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,8 +24,7 @@ public class CityController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity save(@RequestBody @Valid DataCityDTO city, UriComponentsBuilder uriBuilder) {
-        System.out.println(city);
+    public ResponseEntity save(@RequestBody @Valid RegisterNewCityDTO city, UriComponentsBuilder uriBuilder) {
         City save = cityRepository.save(new City(city));
         URI uri = uriBuilder.path("/city/{id}").buildAndExpand(save.getId()).toUri();
 
