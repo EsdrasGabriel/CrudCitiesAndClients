@@ -19,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/customer")
@@ -80,8 +79,11 @@ public class CustomerController {
     @PutMapping("{id}")
     @Transactional
     public ResponseEntity updateNameById(@PathVariable Long id, @RequestBody UpdateCustomerDTO data) {
-        Customer referenceById = customerRepository.getReferenceById(id);
-        Optional.ofNullable(data.fullName()).ifPresent(referenceById::setFullName);
+        Customer referenceById = customerRepository
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Records Found"));
+        referenceById.setFullName(data.fullName());
+
         customerRepository.save(referenceById);
 
         return ResponseEntity.noContent().build();
