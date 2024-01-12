@@ -17,7 +17,7 @@ public class City {
     private String name;
     private String state;
 
-    public City(RegisterCityDTO city) {
+    public City(DataCityDTO city) {
         this.name = city.name();
         this.state = city.state();
     }
