@@ -3,6 +3,7 @@ package com.crud.citiesandclients.controllers;
 import com.crud.citiesandclients.domain.cities.City;
 import com.crud.citiesandclients.domain.clients.Customer;
 import com.crud.citiesandclients.domain.clients.RegisterNewCustomerDTO;
+import com.crud.citiesandclients.domain.clients.UpdateCustomerDTO;
 import com.crud.citiesandclients.repositories.CityRepository;
 import com.crud.citiesandclients.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
@@ -18,9 +19,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/customer")
 public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
@@ -52,5 +54,36 @@ public class CustomerController {
         return ResponseEntity.created(uri).body(client);
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Customer> findWithFilter(Customer filter) {
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example<Customer> example = Example.of(filter, matcher);
 
+        return customerRepository.findAll(example);
+    }
+
+    @DeleteMapping("{id}")
+    @Transactional
+    public ResponseEntity deleteById(@PathVariable Long id) {
+        City city = cityRepository
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Records Found"));
+        customerRepository.deleteById(city.getId());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("{id}")
+    @Transactional
+    public ResponseEntity updateNameById(@PathVariable Long id, @RequestBody UpdateCustomerDTO data) {
+        Customer referenceById = customerRepository.getReferenceById(id);
+        Optional.ofNullable(data.fullName()).ifPresent(referenceById::setFullName);
+        customerRepository.save(referenceById);
+
+        return ResponseEntity.noContent().build();
+    }
 }
