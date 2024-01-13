@@ -1,4 +1,4 @@
-package com.crud.citiesandclients.services;
+package com.crud.citiesandclients.services.user;
 
 import com.crud.citiesandclients.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

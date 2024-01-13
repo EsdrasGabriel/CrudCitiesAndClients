@@ -3,6 +3,7 @@ package com.crud.citiesandclients.controllers;
 import com.crud.citiesandclients.domain.cities.City;
 import com.crud.citiesandclients.domain.cities.RegisterNewCityDTO;
 import com.crud.citiesandclients.repositories.CityRepository;
+import com.crud.citiesandclients.services.city.CityService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +21,18 @@ import java.util.List;
 @RequestMapping("/city")
 public class CityController {
     @Autowired
-    private CityRepository cityRepository;
+    private CityService cityService;
 
     @PostMapping
-    @Transactional
     public ResponseEntity save(@RequestBody @Valid RegisterNewCityDTO city, UriComponentsBuilder uriBuilder) {
-        City save = cityRepository.save(new City(city));
+        City save = cityService.registerNewCity(city);
         URI uri = uriBuilder.path("/city/{id}").buildAndExpand(save.getId()).toUri();
 
         return ResponseEntity.created(uri).body(save);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<City> findWithFilter(City filter) {
-        ExampleMatcher matcher = ExampleMatcher
-                .matching()
-                .withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-        Example<City> example = Example.of(filter, matcher);
-
-        return cityRepository.findAll(example);
+        return cityService.findWithFilter(filter);
     }
 }
