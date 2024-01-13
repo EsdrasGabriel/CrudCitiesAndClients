@@ -1,14 +1,14 @@
 CREATE TABLE cities (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    state TEXT NOT NULL
+    name VARCHAR(50) NOT NULL,
+    state VARCHAR(40) NOT NULL
 );
 
 CREATE TABLE clients (
     id SERIAL PRIMARY KEY,
-    full_name TEXT NOT NULL,
-    gender TEXT NOT NULL,
+    full_name VARCHAR(50) NOT NULL,
+    gender VARCHAR(10) NOT NULL,
     date_of_birth DATE NOT NULL,
-    age BIGINT NOT NULL,
-    city_id BIGINT REFERENCES cities(id)
+    age SMALLINT NOT NULL,
+    city_id INT REFERENCES cities(id)
 );
